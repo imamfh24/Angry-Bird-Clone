@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Bird : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class Bird : MonoBehaviour
     private BirdState _state;
     private float _minVelocity = 0.05f;
     private bool _flagDestroy = false;
+
+    public UnityAction OnBirdDestroyed = delegate { };
+
 
     // Start is called before the first frame update
     void Start()
@@ -61,5 +65,10 @@ public class Bird : MonoBehaviour
         circleCollider2D.enabled = true;
         rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
         rigidBody2D.velocity = velocity * speed * distance;
+    }
+
+    private void OnDestroy()
+    {
+        OnBirdDestroyed();
     }
 }

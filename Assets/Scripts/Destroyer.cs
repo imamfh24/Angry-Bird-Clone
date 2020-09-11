@@ -10,7 +10,7 @@ public class Destroyer : MonoBehaviour
 
         if(tag == "Bird" || tag == "Enemy" || tag == "Obstacle")
         {
-            Destroy(collision, 1f);
+            Destroy(collision.gameObject, 1f);
         }
     }
 }

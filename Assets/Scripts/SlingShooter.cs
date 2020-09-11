@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SlingShooter : MonoBehaviour
 {
     public CircleCollider2D circleCollider2D;
+    public LineRenderer trajectory;
     private Vector2 _startPos;
 
     [SerializeField]
@@ -31,6 +33,7 @@ public class SlingShooter : MonoBehaviour
 
         // Kembalikan ketapel ke posisi awal
         transform.position = _startPos;
+        trajectory.enabled = false;
     }
 
     public void InitatieBird(Bird bird)
@@ -44,23 +47,50 @@ public class SlingShooter : MonoBehaviour
     {
         // Mengubah posisi mouse ke world position
         Vector2 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log("P: " + p);
-        Debug.Log("Start Position" + _startPos);
         // Hitung supaya karet ketapel berada didalam radius  yang ditentukan
         Vector2 dir = p - _startPos;
-        Debug.Log("dir old: " + dir);
-        Debug.Log("dir.sqrMagnitude: " + dir.sqrMagnitude);
         if (dir.sqrMagnitude > _radius)
         {
-            Debug.Log("dir.normalized: " + dir.normalized);
             dir = dir.normalized * _radius;
-            Debug.Log("dir.normalized: " + dir.normalized + " * _radius: " + _radius);
-            Debug.Log("new dir " + dir);
         }
 
-
         transform.position = _startPos + dir;
-        Debug.Log("transform.position: " + transform.position); 
+
+        float distance = Vector2.Distance(_startPos, transform.position);
+
+        if (!trajectory.enabled)
+        {
+            trajectory.enabled = true;
+        }
+
+        DisplayTrajectory(distance);
+    }
+
+    private void DisplayTrajectory(float distance)
+    {
+        if (_bird == null) return;
+
+        Vector2 velocity = _startPos - (Vector2)transform.position;
+        int segmentCount = 5;
+        Vector2[] segments = new Vector2[segmentCount];
+
+        // Posisi awal trajectory merupakan posisi mouse dari player saat ini
+        segments[0] = transform.position;
+
+        // Velocity awal
+        Vector2 segVelocity = velocity * _throwSpeed * distance;
+
+        for(int i = 1; i < segmentCount; i++)
+        {
+            float elapsedTime = i * Time.fixedDeltaTime * 5;
+            segments[i] = segments[0] + segVelocity * elapsedTime + 0.5f * Physics2D.gravity * Mathf.Pow(elapsedTime, 2);
+        }
+
+        trajectory.positionCount = segmentCount;
+        for(int i = 0; i < segmentCount; i++)
+        {
+            trajectory.SetPosition(i, segments[i]);
+        }
     }
 
     // Update is called once per frame

@@ -6,8 +6,8 @@ public class GameController : MonoBehaviour
 {
 
     public SlingShooter slingShooter;
+    public TrailController trailController;
     public List<Bird> birds;
-
     public List<Enemy> enemies;
 
     private bool _isGameEnded = false;
@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
         for(int i = 0; i < birds.Count; i++)
         {
             birds[i].OnBirdDestroyed += ChangeBird;
+            birds[i].OnBirdShot += AssignTrail;
         }
 
         for(int i = 0; i < enemies.Count; i++)
@@ -55,6 +56,12 @@ public class GameController : MonoBehaviour
         {
             _isGameEnded = true;
         }
+    }
+
+    public void AssignTrail(Bird bird)
+    {
+        trailController.SetBird(bird);
+        StartCoroutine(trailController.SpawnTrail());
     }
 
     // Update is called once per frame

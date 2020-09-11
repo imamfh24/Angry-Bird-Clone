@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Bird : MonoBehaviour
 {
-    public enum BirdState { Idle, Thrown}
+    public enum BirdState { Idle, Thrown, HitSomething}
     private Rigidbody2D rigidBody2D;
     private CircleCollider2D circleCollider2D;
     private BirdState _state;
@@ -13,7 +13,11 @@ public class Bird : MonoBehaviour
     private bool _flagDestroy = false;
 
     public UnityAction OnBirdDestroyed = delegate { };
-
+    public UnityAction<Bird> OnBirdShot = delegate { };
+    public BirdState State
+    {
+        get { return _state; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +35,10 @@ public class Bird : MonoBehaviour
     {
         
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        _state = BirdState.HitSomething;
+    }
 
     private void FixedUpdate()
     {
@@ -39,7 +47,7 @@ public class Bird : MonoBehaviour
             _state = BirdState.Thrown;
         }
 
-        if(_state == BirdState.Thrown && rigidBody2D.velocity.sqrMagnitude < _minVelocity && !_flagDestroy)
+        if((_state == BirdState.Thrown || _state == BirdState.HitSomething) && rigidBody2D.velocity.sqrMagnitude < _minVelocity && !_flagDestroy)
         {
             //Hancurkan gameobject setelah 2 detik
             //Jika kecepatannya sudah kurang dari batas minimum
@@ -65,10 +73,12 @@ public class Bird : MonoBehaviour
         circleCollider2D.enabled = true;
         rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
         rigidBody2D.velocity = velocity * speed * distance;
+        OnBirdShot(this);
     }
 
     private void OnDestroy()
     {
-        OnBirdDestroyed();
+        if(_state == BirdState.Thrown || _state == BirdState.HitSomething) OnBirdDestroyed();
     }
+
 }

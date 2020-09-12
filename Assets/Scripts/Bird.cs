@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Bird : MonoBehaviour
 {
     public enum BirdState { Idle, Thrown, HitSomething}
+    public float delay = 2f;
     protected Rigidbody2D rigidBody2D;
     protected CircleCollider2D circleCollider2D;
     private BirdState _state;
@@ -42,21 +43,30 @@ public class Bird : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_state == BirdState.Idle && rigidBody2D.velocity.sqrMagnitude >= _minVelocity)
+        ThrownBird();
+        DestroyBird(delay);
+    }
+
+    protected virtual void ThrownBird()
+    {
+        if (_state == BirdState.Idle && rigidBody2D.velocity.sqrMagnitude >= _minVelocity)
         {
             _state = BirdState.Thrown;
         }
+    }
 
-        if((_state == BirdState.Thrown || _state == BirdState.HitSomething) && rigidBody2D.velocity.sqrMagnitude < _minVelocity && !_flagDestroy)
+    protected virtual void DestroyBird(float delay)
+    {
+        if ((_state == BirdState.Thrown || _state == BirdState.HitSomething) && rigidBody2D.velocity.sqrMagnitude < _minVelocity && !_flagDestroy)
         {
             //Hancurkan gameobject setelah 2 detik
             //Jika kecepatannya sudah kurang dari batas minimum
             _flagDestroy = false;
-            StartCoroutine(DestroyAfter(2));
+            StartCoroutine(DestroyAfter(delay));
         }
     }
 
-    private IEnumerator DestroyAfter(float second)
+    protected virtual IEnumerator DestroyAfter(float second)
     {
         yield return new WaitForSeconds(second);
         Destroy(gameObject);

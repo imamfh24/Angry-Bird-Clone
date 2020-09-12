@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
         if(birds.Count > 0)
         {
             slingShooter.InitatieBird(birds[0]);
+            _shotBird = birds[0];
         }
     }
 
@@ -77,11 +78,5 @@ public class GameController : MonoBehaviour
         {
             _shotBird.OnTap();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

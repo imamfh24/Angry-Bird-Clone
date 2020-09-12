@@ -12,11 +12,15 @@ public class GameController : MonoBehaviour
     private Bird _shotBird;
     public BoxCollider2D tapCollider;
 
+    private UIController uIController;
     private bool _isGameEnded = false;
+    private bool _isGameWin = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        uIController = GameObject.Find("Canvas").GetComponent<UIController>();
+
         for(int i = 0; i < birds.Count; i++)
         {
             birds[i].OnBirdDestroyed += ChangeBird;
@@ -37,7 +41,11 @@ public class GameController : MonoBehaviour
     {
         tapCollider.enabled = false;
 
-        if (_isGameEnded) return;
+        if (_isGameEnded) 
+        {
+            GameEnded();
+            return;
+        }
 
         birds.RemoveAt(0);
 
@@ -45,6 +53,10 @@ public class GameController : MonoBehaviour
         {
             slingShooter.InitatieBird(birds[0]);
             _shotBird = birds[0];
+        } else
+        {
+            _isGameEnded = true;
+            GameEnded();
         }
     }
 
@@ -62,6 +74,7 @@ public class GameController : MonoBehaviour
         if(enemies.Count <= 0)
         {
             _isGameEnded = true;
+            _isGameWin = true;
         }
     }
 
@@ -77,6 +90,17 @@ public class GameController : MonoBehaviour
         if (_shotBird != null)
         {
             _shotBird.OnTap();
+        }
+    }
+
+    private void GameEnded()
+    {
+        if (_isGameEnded && _isGameWin)
+        {
+            uIController.LevelComplete();
+        } else if (_isGameEnded && !_isGameWin)
+        {
+            uIController.LevelLose();
         }
     }
 }

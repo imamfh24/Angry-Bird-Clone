@@ -33,6 +33,7 @@ public class SlingShooter : MonoBehaviour
 
         // Kembalikan ketapel ke posisi awal
         transform.position = _startPos;
+        circleCollider2D.enabled = false;
         trajectory.enabled = false;
     }
 

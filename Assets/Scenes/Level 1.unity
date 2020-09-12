@@ -659,7 +659,7 @@ PrefabInstance:
     - target: {fileID: 5074870205362962985, guid: b368ff4d2b63228419f746049cd8da12,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.55
+      value: -6.65
       objectReference: {fileID: 0}
     - target: {fileID: 5074870205362962985, guid: b368ff4d2b63228419f746049cd8da12,
         type: 3}
@@ -970,6 +970,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7160604946039667926, guid: fbd32ba521bfc5f4286deaa4ffd678c5,
         type: 3}
+      propertyPath: birds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7160604946039667926, guid: fbd32ba521bfc5f4286deaa4ffd678c5,
+        type: 3}
       propertyPath: slingShooter
       value: 
       objectReference: {fileID: 312524179}
@@ -982,12 +987,12 @@ PrefabInstance:
         type: 3}
       propertyPath: birds.Array.data[0]
       value: 
-      objectReference: {fileID: 1218331080}
+      objectReference: {fileID: 670491550}
     - target: {fileID: 7160604946039667926, guid: fbd32ba521bfc5f4286deaa4ffd678c5,
         type: 3}
       propertyPath: birds.Array.data[1]
       value: 
-      objectReference: {fileID: 670491550}
+      objectReference: {fileID: 1218331080}
     - target: {fileID: 7160604946039667926, guid: fbd32ba521bfc5f4286deaa4ffd678c5,
         type: 3}
       propertyPath: birds.Array.data[2]
@@ -1025,7 +1030,7 @@ PrefabInstance:
     - target: {fileID: 9124521706801599375, guid: 4d3b5cd64aa13e245a5f6ff2ab7a9935,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.67
+      value: -7.51
       objectReference: {fileID: 0}
     - target: {fileID: 9124521706801599375, guid: 4d3b5cd64aa13e245a5f6ff2ab7a9935,
         type: 3}

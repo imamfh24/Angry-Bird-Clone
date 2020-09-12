@@ -12,14 +12,13 @@ public class GameController : MonoBehaviour
     private Bird _shotBird;
     public BoxCollider2D tapCollider;
 
-    private UIController uIController;
+    public UIController uIController;
     private bool _isGameEnded = false;
     private bool _isGameWin = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        uIController = GameObject.Find("Canvas").GetComponent<UIController>();
 
         for(int i = 0; i < birds.Count; i++)
         {

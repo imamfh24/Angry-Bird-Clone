@@ -53,6 +53,7 @@ MonoBehaviour:
   enemies:
   - {fileID: 0}
   tapCollider: {fileID: 7160604946039667924}
+  uIController: {fileID: 0}
 --- !u!61 &7160604946039667924
 BoxCollider2D:
   m_ObjectHideFlags: 0

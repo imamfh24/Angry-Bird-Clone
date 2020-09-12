@@ -10,10 +10,10 @@ public class UIController : MonoBehaviour
 
     public float delayWin = 1f;
 
-    private SceneController sceneController;
+    public SceneController sceneController;
     private void Start()
     {
-        sceneController = GameObject.Find("SceneController").GetComponent<SceneController>();
+        /*sceneController = GameObject.Find("SceneController").GetComponent<SceneController>();*/
     }
 
     public void LevelComplete()
